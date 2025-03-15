@@ -1,0 +1,177 @@
+body {
+    margin: 0;
+    font-family: 'Inter', sans-serif;
+    background-color: #F7F7F7;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 100vh;
+    overflow: hidden; /* Hide overflow to prevent scrollbars from background */
+}
+
+.container {
+    text-align: center;
+    position: relative;
+    z-index: 1; /* Ensure content is above background */
+}
+
+.title img {
+    max-width: 50%; /* Adjust as needed */
+    height: auto;
+}
+
+.info {
+    color: #029DE8;
+    margin: 20px auto;
+    max-width: 600px; /* Adjust as needed */
+    line-height: 1.6;
+}
+
+.button button {
+    background-color: lightgray;
+    color: black;
+    padding: 15px 30px;
+    border: none;
+    border-radius: 5px;
+    font-size: 16px;
+    cursor: pointer;
+}
+
+/* Dynamic Sphere Background */
+.background-circles {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    pointer-events: none; /* Prevent background from interfering with clicks */
+}
+
+.circle {
+    position: absolute;
+    border-radius: 50%;
+    background-color: rgba(2, 157, 232, 0.3); /* Light blue with some transparency */
+    animation: moveAndScale 5s infinite linear;
+}
+
+@keyframes moveAndScale {
+    0% {
+        transform: translate(0, 0) scale(0.5);
+    }
+    50% {
+        transform: translate(50px, 50px) scale(1);
+    }
+    100% {
+        transform: translate(0, 0) scale(0.5);
+    }
+}
+
+
+/* ... REGISTRATION PAGE ... */
+
+.title h1{
+    color: #029DE8;
+}
+
+.form-group {
+    margin: 20px auto;
+    max-width: 300px; /* Adjust as needed */
+    text-align: left;
+}
+
+.form-group label {
+    display: block;
+    margin-bottom: 5px;
+    color: #029DE8;
+}
+
+.form-group input {
+    width: 100%;
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    box-sizing: border-box; /* Include padding and border in element's total width and height */
+}
+
+/* ... SURVEY PAGE ... */
+
+.question-country {
+    text-align: center;
+    margin: 50px auto;
+    max-width: 600px;
+}
+
+.question-country p {
+    font-size: 1.2em;
+    margin-bottom: 20px;
+}
+
+.question-country input {
+    width: 80%;
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    font-size: 1em;
+}
+
+.skip {
+    text-align: right;
+    margin-top: 30px;
+    padding-right: 20px;
+}
+
+.skip a {
+    color: #029DE8;
+    text-decoration: none;
+}
+
+
+/* ... MAIN PAGE ... */
+
+.buttons {
+    text-align: center;
+    margin-top: 30px;
+}
+
+.buttons button {
+    padding: 10px 20px;
+    margin: 0 10px;
+    background-color: lightgray;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+}
+
+.side-menu {
+    position: fixed;
+    top: 0;
+    left: -300px; /* Initially hidden */
+    width: 300px;
+    height: 100vh;
+    background-color: #f0f0f0;
+    transition: left 0.3s ease;
+    padding: 20px;
+}
+
+.side-menu.open {
+    left: 0;
+}
+
+.side-menu-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 20px;
+}
+
+.conversaciones-list button {
+    display: block;
+    width: 100%;
+    text-align: left;
+    padding: 10px;
+    margin-bottom: 5px;
+    background-color: white;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    cursor: pointer;
+}

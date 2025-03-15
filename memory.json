@@ -1,0 +1,21 @@
+{
+	"country": "Argentina",
+	"sex": null,
+	"last_queries": [
+		{
+			"query": "¿Cuál es la capital de mi país?",
+			"answer": "La capital de Argentina es Buenos Aires.",
+			"retrieved_info": {
+				"country": "Argentina"
+			}
+		},
+		{
+			"query": "¿Cuántos habitantes tiene Argentina?",
+			"answer": "Argentina tiene 45 millones de habitantes.",
+			"retrieved_info": {
+				"country": "Argentina",
+				"years": 2025
+			}
+		}
+	]
+}

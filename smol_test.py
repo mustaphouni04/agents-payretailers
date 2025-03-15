@@ -2,7 +2,7 @@ from smolagents.tools import tool
 from smolagents import ToolCallingAgent
 from smolagents.models import LiteLLMModel
 import litellm
-from icd_api import get_health_information
+from api_tools import get_health_information
 
 litellm.drop_params = True
 
@@ -20,22 +20,8 @@ model = LiteLLMModel(
     # Add the API version
 )
 
-@tool
-def get_weather(location: str) -> str:
-    """Fetches the weather for a given location.
-
-    Args:
-        location (str): The name of the location.
-
-    Returns:
-        str: A description of the current weather.
-    """
-    return "The weather in Jakarta is bloody nice, at just below -10 degrees Celsius."
-
 # Create the agent with the updated model
 agent = ToolCallingAgent(tools=[get_health_information], model=model)
 
 # Run the agent
-print(agent.run("Que infecciones estan relacionadas con la tos?"))
-
-
+print(agent.run("Como es la tendencia de paro últimamente?"))

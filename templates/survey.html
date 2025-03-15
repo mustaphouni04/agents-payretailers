@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Cuestionario</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body>
+    <div class="container">
+        <div class="title">
+            <h1>Cuestionario</h1>
+        </div>
+        <div class="name-input">
+            <label for="name">Enter your name:</label>
+            <input type="text" id="name" name="name">
+        </div>
+        <div class="sex-select">
+            <label for="sex">Select your sex:</label>
+            <select id="sex" name="sex">
+                <option value="">Select sex</option>
+                <option value="Hombre">Hombre</option>
+                <option value="Mujer">Mujer</option>
+                <option value="Otro">Otro</option>
+                <option value="Prefiero no decirlo">Prefiero no decirlo</option>
+            </select>
+        </div>
+        <div class="question-country">
+            <p>Pregunta 1: Select your country</p>
+            <select id="country" name="country">
+                <option value="">Select a country</option>
+                <option value="Argentina">Argentina</option>
+                <option value="Bolivia">Bolivia</option>
+                <option value="Brazil">Brazil</option>
+                <option value="Chile">Chile</option>
+                <option value="Colombia">Colombia</option>
+                <option value="Costa Rica">Costa Rica</option>
+                <option value="Cuba">Cuba</option>
+                <option value="Dominican Republic">Dominican Republic</option>
+                <option value="Ecuador">Ecuador</option>
+                <option value="El Salvador">El Salvador</option>
+                <option value="Guatemala">Guatemala</option>
+                <option value="Honduras">Honduras</option>
+                <option value="Mexico">Mexico</option>
+                <option value="Nicaragua">Nicaragua</option>
+                <option value="Panama">Panama</option>
+                <option value="Paraguay">Paraguay</option>
+                <option value="Peru">Peru</option>
+                <option value="Puerto Rico">Puerto Rico</option>
+                <option value="Uruguay">Uruguay</option>
+                <option value="Venezuela">Venezuela</option>
+            </select>
+        </div>
+        <div class="next-button">
+            <button id="finish-survey">Finalizar cuestionario</button>
+        </div>
+        <div class="skip">
+            <a href="/main">Saltar cuestionario</a>
+        </div>
+    </div>
+    <script src="{{ url_for('static', filename='js/survey.js') }}"></script>
+</body>
+</html>

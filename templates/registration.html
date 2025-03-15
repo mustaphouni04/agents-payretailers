@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Register or Log In</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body>
+    <div class="container">
+        <div class="title">
+            <h1>Register or Log In</h1>
+        </div>
+        <div class="info">
+            <p>Lorem fistrum por la gloria de mi madre esse jarl aliqua llevame al sircoo. De la pradera ullamco qué dise usteer está la cosa muy malar.</p>
+        </div>
+        <form id="authForm" action="/auth" method="post">
+            <div class="form-group">
+                <label for="email">Correo electrónico:</label>
+                <input type="email" id="email" name="email" required>
+            </div>
+            <div class="form-group">
+                <label for="password">Contraseña:</label>
+                <input type="password" id="password" name="password" required>
+            </div>
+            <div class="button">
+                <button type="submit">Siguiente</button>
+            </div>
+        </form>
+    </div>
+    <div class="background-circles"></div>
+    <script src="{{ url_for('static', filename='js/registration.js') }}"></script>
+</body>
+</html>

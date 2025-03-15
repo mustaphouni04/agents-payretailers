@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Principal</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body>
+    <div class="container">
+        <div class="title">
+            <h1>Principal</h1>
+        </div>
+        <div class="info">
+            <p>Lorem fistrum por la gloria de mi madre esse jarl aliqua llevame al sircoo. De la pradera ullamco qué dise usteer está la cosa muy malar.</p>
+        </div>
+        <div class="buttons">
+            <button id="conversacionesButton">Conversaciones anteriores</button>
+            <button id="nuevaConversacionButton">Nueva conversación</button>
+            <button id="gestionesButton">Gestiones realizadas</button>
+        </div>
+    </div>
+
+    <div id="sideMenu" class="side-menu">
+        <div class="side-menu-header">
+            <h2>Conversaciones</h2>
+            <button id="closeMenuButton">X</button>
+        </div>
+        <div id="conversacionesList" class="conversaciones-list">
+            <button class="conversation-title">Conversation 1</button>
+            <button class="conversation-title">Conversation 2</button>
+            <button class="conversation-title">Conversation 3</button>
+            </div>
+    </div>
+
+    <script src="{{ url_for('static', filename='js/main.js') }}"></script>
+</body>
+</html>

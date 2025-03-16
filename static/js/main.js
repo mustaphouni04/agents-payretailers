@@ -12,12 +12,12 @@ fetch('/get_user_name')
             welcomeMessage.textContent = `Hola, ${data.name}`;
         } else {
             console.error('User name not found in response:', data);
-            welcomeMessage.textContent = 'Hola, Usuario'; // Default message
+            welcomeMessage.textContent = 'Hola, Oscar'; // Default message
         }
     })
     .catch(error => {
         console.error('Error fetching user name:', error);
-        welcomeMessage.textContent = 'Hola, Usuario'; // Default message
+        welcomeMessage.textContent = 'Hola, Oscar'; // Default message
     });
 
 nuevaConversacionButton.addEventListener('click', function() {
@@ -32,13 +32,9 @@ conversationTitles.forEach(title => {
     title.addEventListener('click', function() {
         window.location.href = '/conversation'; // Redirect to conversation page
     });
-<<<<<<< HEAD
-});
-=======
 });
 
 // const nuevaConversacionButton = document.getElementById('nuevaConversacionButton');
 // const gestionesButton = document.getElementById('gestionesButton');
 // const conversationTitles = document.querySelectorAll('.conversation-title');
 // const welcomeMessage = document.getElementById('welcomeMessage');
->>>>>>> main

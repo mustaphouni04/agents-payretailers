@@ -2,7 +2,7 @@ from smolagents.tools import tool
 from smolagents import ToolCallingAgent
 from smolagents.models import LiteLLMModel
 import litellm
-from api_tools import get_health_information
+from api_tools import find_relevant_stat
 
 litellm.drop_params = True
 
@@ -21,7 +21,7 @@ model = LiteLLMModel(
 )
 
 # Create the agent with the updated model
-agent = ToolCallingAgent(tools=[get_health_information], model=model)
+agent = ToolCallingAgent(tools=[find_relevant_stat], model=model)
 
 # Run the agent
-print(agent.run("Como es la tendencia de paro últimamente?"))
+print(agent.run("Cuales són los valores de la deuda pública de mi pais en la ultima década?"))

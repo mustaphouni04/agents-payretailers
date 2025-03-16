@@ -1,3 +1,4 @@
+
 const nuevaConversacionButton = document.getElementById('nuevaConversacionButton');
 const gestionesButton = document.getElementById('gestionesButton');
 const conversationTitles = document.querySelectorAll('.conversation-title');
@@ -7,10 +8,16 @@ const welcomeMessage = document.getElementById('welcomeMessage');
 fetch('/get_user_name')
     .then(response => response.json())
     .then(data => {
-        welcomeMessage.textContent = `Hola, ${data.name}`;
+        if (data && data.name) {
+            welcomeMessage.textContent = `Hola, ${data.name}`;
+        } else {
+            console.error('User name not found in response:', data);
+            welcomeMessage.textContent = 'Hola, Usuario'; // Default message
+        }
     })
     .catch(error => {
         console.error('Error fetching user name:', error);
+        welcomeMessage.textContent = 'Hola, Usuario'; // Default message
     });
 
 nuevaConversacionButton.addEventListener('click', function() {
@@ -26,8 +33,3 @@ conversationTitles.forEach(title => {
         window.location.href = '/conversation'; // Redirect to conversation page
     });
 });
-
-const nuevaConversacionButton = document.getElementById('nuevaConversacionButton');
-const gestionesButton = document.getElementById('gestionesButton');
-const conversationTitles = document.querySelectorAll('.conversation-title');
-const welcomeMessage = document.getElementById('welcomeMessage');

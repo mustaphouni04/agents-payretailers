@@ -1,4 +1,4 @@
-from flask import Flask, render_template, request, redirect, session
+from flask import Flask, render_template, request, redirect, session, jsonify
 import hashlib
 import json
 import os
@@ -91,16 +91,61 @@ def main_page():
         return redirect('/')
 
 @app.route('/conversation', methods=['GET'])
-def conversation_page():
-    if 'user_id' in session:
-        return "Conversation page"
-    else:
-        return redirect('/')
+def chat_page():
+    return render_template('chat.html')
+
+@app.route('/chat_bot', methods=['POST'])
+def chat_bot():
+    message = request.form['message']
+    # Call your chatbot program here and get the response
+    bot_response = get_bot_response(message) # Implement this function
+    return bot_response
+
+def get_bot_response(user_message):
+    # This is where you integrate your chatbot program
+    # Example:
+    # from your_chatbot_module import get_response
+    # bot_response = get_response(user_message)
+    # Replace the following with your actual chatbot logic
+    return f"Bot: {user_message} (Response from bot)"
+
 
 @app.route('/management', methods=['GET'])
 def management_page():
     if 'user_id' in session:
-        return "Management page"
+        return render_template('management.html')
+    else:
+        return redirect('/')
+
+@app.route('/get_paperwork_data', methods=['GET'])
+def get_paperwork_data():
+    if 'user_id' in session:
+        email = session['user_id']
+        users_data = load_users()
+        users = users_data["users"]
+        user = next((u for u in users if u['email'] == email), None)
+        if user and 'paperwork' in user:
+            return jsonify(user['paperwork'])
+        else:
+            return jsonify([])  # Return empty list if no paperwork data
+    else:
+        return redirect('/')
+
+@app.route('/paperwork_details/<int:paperwork_id>', methods=['GET'])
+def paperwork_details(paperwork_id):
+    if 'user_id' in session:
+        email = session['user_id']
+        users_data = load_users()
+        users = users_data["users"]
+        user = next((u for u in users if u['email'] == email), None)
+        if user and 'paperwork' in user:
+            paperwork = next((p for p in user['paperwork'] if p['id'] == paperwork_id), None)
+            if paperwork:
+                return render_template('paperwork_details.html', paperwork=paperwork)
+            else:
+                return "Paperwork not found", 404
+        else:
+            return redirect('/')
     else:
         return redirect('/')
 

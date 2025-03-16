@@ -25,18 +25,17 @@ document.getElementById('authForm').addEventListener('submit', function(event) {
             window.location.href = '/survey'; // Redirect to questionnaire
         }
         else if (data.includes("Incorrect password")){
-            alert("Incorrect password");
+            alert("Contraseña incorrecta.");
         }
         else if (data.includes("Database error")){
-            alert("Database Error, please try again later.");
+            alert("Error en la base de datos, por favor, inténtelo más tarde.");
         }
         else {
-            alert("User registered or logged in successfully!");
             window.location.href = '/survey'; // Redirect to questionnaire
         }
     })
     .catch(error => {
         console.error('Error:', error);
-        alert('An error occurred during authentication.');
+        alert('Un error ocurrió durante autenticación.');
     });
 });

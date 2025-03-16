@@ -32,4 +32,13 @@ conversationTitles.forEach(title => {
     title.addEventListener('click', function() {
         window.location.href = '/conversation'; // Redirect to conversation page
     });
+<<<<<<< HEAD
 });
+=======
+});
+
+// const nuevaConversacionButton = document.getElementById('nuevaConversacionButton');
+// const gestionesButton = document.getElementById('gestionesButton');
+// const conversationTitles = document.querySelectorAll('.conversation-title');
+// const welcomeMessage = document.getElementById('welcomeMessage');
+>>>>>>> main

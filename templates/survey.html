@@ -5,30 +5,27 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Cuestionario</title>
     <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700&display=swap" rel="stylesheet">
 </head>
 <body>
     <div class="container">
         <div class="title">
             <h1>Cuestionario</h1>
         </div>
-        <div class="name-input">
-            <label for="name">Enter your name:</label>
+        <div class="form-group">
+            <label for="name">Introduce tu nombre:</label>
             <input type="text" id="name" name="name">
-        </div>
-        <div class="sex-select">
-            <label for="sex">Select your sex:</label>
+            <label for="sex">Selecciona tu sexo:</label>
             <select id="sex" name="sex">
-                <option value="">Select sex</option>
+                <option value="">Selecciona sexo</option>
                 <option value="Hombre">Hombre</option>
                 <option value="Mujer">Mujer</option>
                 <option value="Otro">Otro</option>
                 <option value="Prefiero no decirlo">Prefiero no decirlo</option>
             </select>
-        </div>
-        <div class="question-country">
-            <p>Pregunta 1: Select your country</p>
+            <label for="country">Selecciona tu país:</label>
             <select id="country" name="country">
-                <option value="">Select a country</option>
+                <option value="">Selecciona país</option>
                 <option value="Argentina">Argentina</option>
                 <option value="Bolivia">Bolivia</option>
                 <option value="Brazil">Brazil</option>
@@ -58,6 +55,7 @@
             <a href="/main">Saltar cuestionario</a>
         </div>
     </div>
+    <div class="wave-footer"></div>
     <script src="{{ url_for('static', filename='js/survey.js') }}"></script>
 </body>
 </html>

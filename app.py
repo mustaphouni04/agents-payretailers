@@ -89,6 +89,19 @@ def main_page():
         return render_template('main.html')
     else:
         return redirect('/')
+    
+@app.route('/get_user_name')
+def get_user_name():
+    """Returns the logged-in user's name as JSON."""
+    if 'user_email' in session:
+        users = load_users()
+        for user in users:
+            if user['email'] == session['user_email']:
+                return jsonify({'name': user['name']})
+        return jsonify({'error': 'User not found'}), 404
+    else:
+        return jsonify({'error': 'User not authenticated'}), 401
+
 
 @app.route('/conversation', methods=['GET'])
 def chat_page():

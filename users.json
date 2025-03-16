@@ -1,55 +1,55 @@
 {
     "users": [
-      {
-        "email": "arrocha.0305@gmail.com",
-        "password": "03ac674216f3e15c761ee1a5e255f067953623c8b388b4459e13f978d7c846f4",
-        "country": "Peru",
-        "name": "Faraón Love Shady",
-        "sex": "Otro",
-        "paperwork": [
-          {
-            "id": 1,
-            "title": "Documento de Identidad",
-            "summary": "Solicitud de renovación del DNI.",
-            "date": "2024-03-15",
-            "link": "https://www.example.com/dni"
-          },
-          {
-            "id": 2,
-            "title": "Certificado de Estudios",
-            "summary": "Solicitud de certificado de estudios superiores.",
-            "date": "2024-04-01",
-            "link": "https://www.example.com/estudios"
-          },
-          {
-            "id": 3,
-            "title": "Registro de Propiedad",
-            "summary": "Inscripción de propiedad inmobiliaria.",
-            "date": "2024-04-15",
-            "link": "https://www.example.com/propiedad"
-          },
-          {
-            "id": 4,
-            "title": "Permiso de Conducir",
-            "summary": "Renovación del permiso de conducir.",
-            "date": "2024-05-01",
-            "link": "https://www.example.com/conducir"
-          },
-          {
-            "id": 5,
-            "title": "Solicitud de Visa",
-            "summary": "Solicitud de visa de turista.",
-            "date": "2024-05-15",
-            "link": "https://www.example.com/visa"
-          },
-          {
-            "id": 6,
-            "title": "Registro de Negocio",
-            "summary": "Inscripción de negocio local.",
-            "date": "2024-06-01",
-            "link": "https://www.example.com/negocio"
-          }
-        ]
-      }
+        {
+            "email": "arrocha.0305@gmail.com",
+            "password": "03ac674216f3e15c761ee1a5e255f067953623c8b388b4459e13f978d7c846f4",
+            "country": "Peru",
+            "name": "Fara\u00f3n Love Shady",
+            "sex": "Otro",
+            "paperwork": [
+                {
+                    "id": 1,
+                    "title": "Documento de Identidad",
+                    "summary": "Solicitud de renovaci\u00c3\u00b3n del DNI.",
+                    "date": "2024-03-15",
+                    "link": "https://www.example.com/dni"
+                },
+                {
+                    "id": 2,
+                    "title": "Certificado de Estudios",
+                    "summary": "Solicitud de certificado de estudios superiores.",
+                    "date": "2024-04-01",
+                    "link": "https://www.example.com/estudios"
+                },
+                {
+                    "id": 3,
+                    "title": "Registro de Propiedad",
+                    "summary": "Inscripci\u00c3\u00b3n de propiedad inmobiliaria.",
+                    "date": "2024-04-15",
+                    "link": "https://www.example.com/propiedad"
+                },
+                {
+                    "id": 4,
+                    "title": "Permiso de Conducir",
+                    "summary": "Renovaci\u00c3\u00b3n del permiso de conducir.",
+                    "date": "2024-05-01",
+                    "link": "https://www.example.com/conducir"
+                },
+                {
+                    "id": 5,
+                    "title": "Solicitud de Visa",
+                    "summary": "Solicitud de visa de turista.",
+                    "date": "2024-05-15",
+                    "link": "https://www.example.com/visa"
+                },
+                {
+                    "id": 6,
+                    "title": "Registro de Negocio",
+                    "summary": "Inscripci\u00c3\u00b3n de negocio local.",
+                    "date": "2024-06-01",
+                    "link": "https://www.example.com/negocio"
+                }
+            ]
+        }
     ]
-  }
+}

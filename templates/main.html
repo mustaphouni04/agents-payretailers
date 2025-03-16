@@ -5,34 +5,32 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Principal</title>
     <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700&display=swap" rel="stylesheet">
 </head>
 <body>
-    <div class="container">
-        <div class="title">
-            <h1>Principal</h1>
-        </div>
-        <div class="info">
-            <p>Lorem fistrum por la gloria de mi madre esse jarl aliqua llevame al sircoo. De la pradera ullamco qué dise usteer está la cosa muy malar.</p>
-        </div>
-        <div class="buttons">
-            <button id="conversacionesButton">Conversaciones anteriores</button>
-            <button id="nuevaConversacionButton">Nueva conversación</button>
-            <button id="gestionesButton">Gestiones realizadas</button>
-        </div>
-    </div>
-
-    <div id="sideMenu" class="side-menu">
-        <div class="side-menu-header">
+    <div class="sidebar">
+        <div class="sidebar-header">
             <h2>Conversaciones</h2>
-            <button id="closeMenuButton">X</button>
         </div>
         <div id="conversacionesList" class="conversaciones-list">
             <button class="conversation-title">Conversation 1</button>
             <button class="conversation-title">Conversation 2</button>
             <button class="conversation-title">Conversation 3</button>
-            </div>
+        </div>
     </div>
-
+    <div class="content-main">
+        <div class="title">
+            <h1 id="welcomeMessage">Hola, [User Name]</h1>
+        </div>
+        <div class="info">
+            <p>Bienvenido a tu página principal. Aquí puedes acceder a tus conversaciones anteriores, iniciar una nueva conversación o revisar tus gestiones realizadas.</p>
+        </div>
+        <div class="buttons">
+            <button id="nuevaConversacionButton" class="button">Nueva conversación</button>
+            <button id="gestionesButton" class="button">Gestiones realizadas</button>
+        </div>
+    </div>
+    <div class="wave-footer"></div>
     <script src="{{ url_for('static', filename='js/main.js') }}"></script>
 </body>
 </html>

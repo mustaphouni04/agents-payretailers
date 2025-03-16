@@ -88,6 +88,7 @@ body {
     z-index: 1;
     max-width: 800px;
     padding: 20px;
+    padding-bottom: 200px;
 }
 
 .title img {
@@ -101,21 +102,23 @@ body {
     font-size: 1.1rem;
 }
 
-.button button {
-    background-color: #e0e0e0;
-    color: #333;
-    padding: 15px 30px;
+button {
+    background-color: #8A2BE2;
+    color: white;
+    padding: 18px 35px;
     border: none;
-    border-radius: 8px;
-    font-size: 1.1rem;
+    border-radius: 30px;
+    font-size: 1.2rem;
     cursor: pointer;
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-    transition: background-color 0.3s ease;
+    box-shadow: 0 4px 15px rgba(138, 43, 226, 0.4);
+    transition: background-color 0.3s ease, box-shadow 0.2s ease;
 }
 
-.button button:hover {
-    background-color: #d0d0d0;
+button:hover {
+    background-color: #4b187a; 
+    box-shadow: 0 6px 20px rgba(138, 43, 226, 0.6);
 }
+
 
 .wave-footer {
     position: fixed;
@@ -142,13 +145,15 @@ body {
 
 /* ... REGISTRATION PAGE ... */
 
-.title h1{
-    color: #029DE8;
+.title h1 {
+    font-size: 3rem;
+    font-weight: 500;
+    margin-bottom: 20px;
 }
 
 .form-group {
     margin: 20px auto;
-    max-width: 300px; /* Adjust as needed */
+    max-width: 300px;
     text-align: left;
 }
 
@@ -156,84 +161,86 @@ body {
     display: block;
     margin-bottom: 5px;
     color: #029DE8;
+    font-weight: 600; /* Added font weight for emphasis */
 }
 
 .form-group input {
     width: 100%;
-    padding: 10px;
+    padding: 12px; /* Increased padding */
     border: 1px solid #ccc;
-    border-radius: 5px;
-    box-sizing: border-box; /* Include padding and border in element's total width and height */
+    border-radius: 8px; /* Slightly more rounded corners */
+    box-sizing: border-box;
+    font-size: 1rem; /* Slightly larger font */
+    transition: border-color 0.3s ease; /* Added transition for focus effect */
+}
+
+.form-group input:focus {
+    border-color: #8A2BE2; /* Highlight color on focus */
+    outline: none; /* Remove default focus outline */
 }
 
 /* ... SURVEY PAGE ... */
 
+
+input[type="text"], select {
+    width: calc(100% - 24px); /* Adjusted width */
+    padding: 12px;
+    margin-bottom: 20px;
+    border: 1px solid #ccc;
+    border-radius: 8px;
+    font-size: 1rem;
+    box-sizing: border-box;
+    transition: border-color 0.3s ease;
+}
+
+input[type="text"]:focus, select:focus {
+    border-color: #8A2BE2;
+    outline: none;
+}
+
 .question-country {
-    text-align: center;
-    margin: 50px auto;
+    text-align: left; /* Aligned question to the left */
+    margin: 30px auto; /* Reduced margin */
     max-width: 600px;
 }
 
 .question-country p {
     font-size: 1.2em;
-    margin-bottom: 20px;
-}
-
-.question-country input {
-    width: 80%;
-    padding: 10px;
-    border: 1px solid #ccc;
-    border-radius: 5px;
-    font-size: 1em;
+    margin-bottom: 15px;
+    color: #333;
 }
 
 .skip {
     text-align: right;
-    margin-top: 30px;
+    margin-top: 50px;
     padding-right: 20px;
 }
 
 .skip a {
-    color: #029DE8;
+    color: #ffffff;
     text-decoration: none;
+    font-weight: 500;
+}
+
+.next-button {
+    margin-top: 30px;
 }
 
 
 /* ... MAIN PAGE ... */
 
-.buttons {
-    text-align: center;
-    margin-top: 30px;
-}
-
-.buttons button {
-    padding: 10px 20px;
-    margin: 0 10px;
-    background-color: lightgray;
-    border: none;
-    border-radius: 5px;
-    cursor: pointer;
-}
-
-.side-menu {
+.sidebar {
     position: fixed;
     top: 0;
-    left: -300px; /* Initially hidden */
-    width: 300px;
+    left: 0;
+    width: 250px;
     height: 100vh;
     background-color: #f0f0f0;
-    transition: left 0.3s ease;
     padding: 20px;
+    box-shadow: 2px 0 5px rgba(0, 0, 0, 0.1);
 }
 
-.side-menu.open {
-    left: 0;
-}
-
-.side-menu-header {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
+.sidebar-header {
     margin-bottom: 20px;
 }
 
@@ -247,6 +254,13 @@ body {
     border: 1px solid #ccc;
     border-radius: 5px;
     cursor: pointer;
+}
+
+.content-main {
+    margin-left: 270px;
+    padding: 20px;
+    width: calc(100% - 250px);
+    text-align: center;
 }
 
 /* ... CHAT PAGE ... */

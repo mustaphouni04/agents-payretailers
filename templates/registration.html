@@ -3,16 +3,17 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Register or Log In</title>
+    <title>Iniciar Sesión / Registrarse</title>
     <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700&display=swap" rel="stylesheet">
 </head>
 <body>
     <div class="container">
         <div class="title">
-            <h1>Register or Log In</h1>
+            <h1>Iniciar Sesión / Registrarse</h1>
         </div>
         <div class="info">
-            <p>Lorem fistrum por la gloria de mi madre esse jarl aliqua llevame al sircoo. De la pradera ullamco qué dise usteer está la cosa muy malar.</p>
+            <p>Por favor, introduce tus credenciales para acceder a tu cuenta o regístrate si eres un nuevo usuario.</p>
         </div>
         <form id="authForm" action="/auth" method="post">
             <div class="form-group">
@@ -28,7 +29,7 @@
             </div>
         </form>
     </div>
-    <div class="background-circles"></div>
+    <div class="wave-footer"></div>
     <script src="{{ url_for('static', filename='js/registration.js') }}"></script>
 </body>
 </html>

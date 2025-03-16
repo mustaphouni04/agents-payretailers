@@ -1,1 +1,1 @@
-Flask mysql-connector-python
+Flask 

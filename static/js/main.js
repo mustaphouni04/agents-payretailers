@@ -27,7 +27,7 @@ conversationTitles.forEach(title => {
     });
 });
 
-const nuevaConversacionButton = document.getElementById('nuevaConversacionButton');
-const gestionesButton = document.getElementById('gestionesButton');
-const conversationTitles = document.querySelectorAll('.conversation-title');
-const welcomeMessage = document.getElementById('welcomeMessage');
+// const nuevaConversacionButton = document.getElementById('nuevaConversacionButton');
+// const gestionesButton = document.getElementById('gestionesButton');
+// const conversationTitles = document.querySelectorAll('.conversation-title');
+// const welcomeMessage = document.getElementById('welcomeMessage');

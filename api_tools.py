@@ -15,12 +15,12 @@ from browser_use import Agent
 from langchain_openai import AzureChatOpenAI
 
 
-AZURE_OPENAI_ENDPOINT = "https://ai-hackathonuabpayretailers082809715538.openai.azure.com/openai/deployments/gpt-4o-mini/chat/completions?api-version=2024-10-21"
-AZURE_OPENAI_API_KEY = "6evUUU8hO6Z13XrWLqupolcAtbxiOdCiw0LBeu2prfMuqEd33BwUJQQJ99BCACYeBjFXJ3w3AAAAACOGQmQt"
-AZURE_DEPLOYMENT_NAME = "gpt-4o-mini" 
+AZURE_OPENAI_ENDPOINT = ""
+AZURE_OPENAI_API_KEY = ""
+AZURE_DEPLOYMENT_NAME = "" 
 
-AZURE_OPENAI_ENDPOINT_EMBS = "https://ai-hackathonuabpayretailers082809715538.openai.azure.com/openai/deployments/text-embedding-ada-002/embeddings?api-version=2023-05-15"
-AZURE_OPENAI_API_KEY_EMBS = "6evUUU8hO6Z13XrWLqupolcAtbxiOdCiw0LBeu2prfMuqEd33BwUJQQJ99BCACYeBjFXJ3w3AAAAACOGQmQt"
+AZURE_OPENAI_ENDPOINT_EMBS = ""
+AZURE_OPENAI_API_KEY_EMBS = ""
 
 
 def extract_json_from_file(file_path):

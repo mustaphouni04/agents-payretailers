@@ -5,15 +5,16 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Chat</title>
     <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700&display=swap" rel="stylesheet">
 </head>
 <body>
-    <div class="container">
-        <div class="title">
-            <h1>Chat with Bot</h1>
+    <div class="chat-container">
+        <div class="chat-header">
+            <h2>Chat with Bot</h2>
         </div>
         <div id="chat-messages" class="chat-messages">
             </div>
-        <div class="chat-input">
+        <div class="chat-input-area">
             <input type="text" id="user-input" placeholder="Type your message...">
             <button id="send-button">Send</button>
         </div>

@@ -1,1 +1,6 @@
-{"country": "Mexico", "sex": "Men", "last_queries": [{"query": "deuda p\u00fablica en la \u00faltima d\u00e9cada de mi pa\u00eds", "answer": "En la \u00faltima d\u00e9cada, la deuda p\u00fablica de M\u00e9xico ha mostrado un aumento significativo. Aqu\u00ed tienes un resumen de los datos disponibles sobre la deuda p\u00fablica del gobierno central en millones de d\u00f3lares:\n\n- **2015:** 377,478\n- **2016:** 359,260\n- **2017:** 390,272\n- **2018:** 422,492\n- **2019:** 468,654\n- **2020:** 486,354\n- **2021:** 519,751\n- **2022:** 598,995\n\nComo puedes observar, la deuda p\u00fablica ha ido en aumento desde 2015, alcanzando casi 599,000 millones de d\u00f3lares en 2022. Si necesitas m\u00e1s informaci\u00f3n espec\u00edfica o un an\u00e1lisis m\u00e1s profundo sobre la deuda p\u00fablica en M\u00e9xico, h\u00e1zmelo saber."}, {"query": "\u00bfCu\u00e1ntos habitantes tiene Mejico?", "answer": "Mejico tiene 45 millones de habitantes.", "retrieved_info": {"country": "Mexico", "years": 2025}}]}
+{
+    "name": "Paco",
+    "sex": "Hombre",
+    "country": "Peru",
+    "last_queries": []
+}

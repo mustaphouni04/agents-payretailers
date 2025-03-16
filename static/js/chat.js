@@ -24,7 +24,7 @@ function appendMessage(sender, message) {
     messageDiv.classList.add(`${sender}-message`);
     messageDiv.textContent = message;
     chatMessages.appendChild(messageDiv);
-    chatMessages.scrollTop = chatMessages.scrollHeight; // Scroll to bottom
+    chatMessages.scrollTop = chatMessages.scrollHeight;
 }
 
 function sendToBot(message) {

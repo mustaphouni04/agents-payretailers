@@ -6,27 +6,86 @@ from sklearn.metrics.pairwise import cosine_similarity
 import litellm
 import numpy as np
 import json
+import os
 from datetime import datetime
 # levenshtein distance
 import Levenshtein
+import asyncio
+from browser_use import Agent
+from langchain_openai import AzureChatOpenAI
 
-endpoint_gpt = "https://ai-hackathonuabpayretailers082809715538.openai.azure.com/openai/deployments/gpt-4o-mini/chat/completions?api-version=2024-10-21"
-api_key_gpt = "6evUUU8hO6Z13XrWLqupolcAtbxiOdCiw0LBeu2prfMuqEd33BwUJQQJ99BCACYeBjFXJ3w3AAAAACOGQmQt"
 
-endpoint_embs = "https://ai-hackathonuabpayretailers082809715538.openai.azure.com/openai/deployments/text-embedding-ada-002/embeddings?api-version=2023-05-15"
-api_key_embs = "6evUUU8hO6Z13XrWLqupolcAtbxiOdCiw0LBeu2prfMuqEd33BwUJQQJ99BCACYeBjFXJ3w3AAAAACOGQmQt"
+AZURE_OPENAI_ENDPOINT = "https://ai-hackathonuabpayretailers082809715538.openai.azure.com/openai/deployments/gpt-4o-mini/chat/completions?api-version=2024-10-21"
+AZURE_OPENAI_API_KEY = "6evUUU8hO6Z13XrWLqupolcAtbxiOdCiw0LBeu2prfMuqEd33BwUJQQJ99BCACYeBjFXJ3w3AAAAACOGQmQt"
+AZURE_DEPLOYMENT_NAME = "gpt-4o-mini" 
+
+AZURE_OPENAI_ENDPOINT_EMBS = "https://ai-hackathonuabpayretailers082809715538.openai.azure.com/openai/deployments/text-embedding-ada-002/embeddings?api-version=2023-05-15"
+AZURE_OPENAI_API_KEY_EMBS = "6evUUU8hO6Z13XrWLqupolcAtbxiOdCiw0LBeu2prfMuqEd33BwUJQQJ99BCACYeBjFXJ3w3AAAAACOGQmQt"
+
+
+def extract_json_from_file(file_path):
+    """Extracts JSON objects from a file."""
+    extracted_json = []
+    collecting_json = False
+    json_lines = []
+
+    with open(file_path, 'r', encoding='utf-8') as file:
+        for line in file:
+            line = line.strip()
+            
+            if line == "RESPONSE":
+                collecting_json = True
+                json_lines = []  # Reset JSON lines
+
+            elif collecting_json:
+                json_lines.append(line)
+                # Attempt to parse once we have a full JSON object
+                try:
+                    json_data = json.loads("\n".join(json_lines))
+                    extracted_json.append(json_data)
+                    collecting_json = False  # Stop collecting once successful
+                except json.JSONDecodeError:
+                    pass  # Keep collecting until we have valid JSON
+
+    return extracted_json
+
+def find_conversation_with_highest_number(logs_directory):
+    """Finds the conversation with the highest index 'i' in conversation_i.txt files."""
+    highest_index = -1
+    highest_file_path = None
+    
+    # First, find the file with the highest index
+    for filename in os.listdir(logs_directory):
+        if filename.startswith("conversation_") and filename.endswith(".txt"):
+            try:
+                # Extract the index number from the filename
+                index = int(filename.replace("conversation_", "").replace(".txt", ""))
+                if index > highest_index:
+                    highest_index = index
+                    highest_file_path = os.path.join(logs_directory, filename)
+            except ValueError:
+                # Skip files that don't have a proper number format
+                continue
+    
+    # If we found a file with valid index, extract the JSON from it
+    if highest_file_path:
+        print(f"Found highest indexed file: {highest_file_path} with index {highest_index}")
+        extracted_data = extract_json_from_file(highest_file_path)
+        return extracted_data
+    
+    return None
 
 
 def get_embedding(text): # str or list
 	headers = {
 		"Content-Type": "application/json",
-		"api-key": api_key_embs,
+		"api-key": AZURE_OPENAI_API_KEY_EMBS,
 	}
 	data = {
 		"input": text,
 		"model": "text-embedding-ada-002",
 	}
-	response = requests.post(endpoint_embs, headers=headers, json=data)
+	response = requests.post(AZURE_OPENAI_ENDPOINT_EMBS, headers=headers, json=data)
 	response.raise_for_status()  # Raise an error for bad responses
 	
 	# Handle both single string and list of strings
@@ -43,14 +102,14 @@ def make_request(url, headers=None, params=None):
 def prompt_gpt(prompt, temperature=0.7) -> str:
 	headers = {
 		"Content-Type": "application/json",
-		"api-key": api_key_gpt,
+		"api-key": AZURE_OPENAI_API_KEY,
 	}
 	data = {
 		"model": "gpt-4o-mini",
 		"messages": [{"role": "user", "content": prompt}],
 		"temperature": temperature,
 	}
-	response = requests.post(endpoint_gpt, headers=headers, json=data)
+	response = requests.post(AZURE_OPENAI_ENDPOINT, headers=headers, json=data)
 	response.raise_for_status()  # Raise an error for bad responses
 	return response.json()["choices"][0]["message"]["content"]
 
@@ -140,7 +199,7 @@ def get_key(possible_values, id):
 @tool
 def find_relevant_stat(query: str) -> str:
 	"""
-	Finds the relevant statistic for a given user query, retrieves some data points related to the query and user personal information, and generates an answer using the GPT model.
+	Finds the relevant statistic for a given user query, retrieves some data points related to the query and user personal information, and generates an answer using the GPT model. If the user didn't specify a country, do not infer it, this function will do so. If the user did specify a country or more, mention it.
 	
 	Args:
 		query (str): The user query
@@ -162,12 +221,13 @@ def find_relevant_stat(query: str) -> str:
 	names = data["names"]
 	indicator_id = ids[index]
 	indicator_name = names[index]
+	print("-"*50)
+	print("Searching information for:", indicator_name)
 
 	# retrieve the dimensions of the statistic
 	response = make_request(f"https://api-cepalstat.cepal.org/cepalstat/api/v1/indicator/{indicator_id}/dimensions", headers={"accept": "application/json"}, params={"in": 1})
 	dimensions = response["body"]["dimensions"]
 	dimensions_names = [dimension["name"] for dimension in dimensions]
-	dimensions_ids = [dimension["id"] for dimension in dimensions]
 	possible_values = {}
 	for dimension in dimensions:
 		dimension_name = dimension["name"]
@@ -189,31 +249,39 @@ def find_relevant_stat(query: str) -> str:
 	# 		dimensions_values[dimension_name] = [memory["sex"]]
 	
 	none_values = {key: value for key, value in dimensions_values.items() if value is None}
-	print("none_values:", none_values)
+	# print("none_values:", none_values)
 	current_date = datetime.now()
 	formated_date = current_date.strftime("%d-%m-%Y")
 	if len(none_values) > 0:
 		# make gpt-4o-mini suggest values
 		possible_values_prompt = {key: list(value.keys()) for key, value in possible_values.items()}
 		prompt = f"A statistic must be retrieved related to {indicator_name}, but we need first to fill in the values for the dimensions: {list(none_values.keys())}. Given that the original user query was: {query}, today is {formated_date}, and the user information is: {memory}, suggest values for the dimensions in the form of string or list of strings. For the dimension \"Years__ESTANDAR\", it is accepted in the form of list of years if the query asks for a period of time explicitly or implicitly (e.g. if the user says \"recently\" we could pick the last five years). Also, multiple countries can be specified. The values must be one of the following possible values: {possible_values_prompt}. In case the value is not present in the possible values set the value to \"null\". In case no value can be inferred from the given information, set the value to \"null\". Provide only the values in a dictionary format (without prefix json) with the keys as the dimension names and the values as the suggested values. Do not add any other text."
-		print("prompt:", prompt)
+		# print("prompt:", prompt)
 		response2 = prompt_gpt(prompt)
-		print("response2:", response2)
+		# print("response2:", response2)
 		# parse the response
 		response2 = json.loads(response2)
 		# fill the dimensions values
 		for key in none_values.keys():
 			if key in response2.keys() and response2[key] is not None:
 				response_values = response2[key]
+				if key == "Years__ESTANDAR" and int(response_values[-1]) > int(list(possible_values[key].keys())[-1]):
+					diff = int(response_values[-1]) - int(list(possible_values[key].keys())[-1])
+					response_values = [str(int(value) - diff) for value in response_values]
+					print("Corrected response_values:", response_values)
 				if isinstance(response2[key], str):
 					response_values = [response_values]
-				response_values = [get_closer_string(value, possible_values[key]) for value in response_values]
+				for value in response_values:
+					print("possible_values[key]", list(possible_values[key].keys()))
+					print("value", value)
+					print("get_closer_string(value, possible_values[key])", get_closer_string(value, list(possible_values[key].keys())))
+				response_values = [get_closer_string(value, list(possible_values[key].keys())) for value in response_values]
 				dimensions_values[key] = response_values
 			else:
 				dimensions_values[key] = None
-		print("dimensions_values:", dimensions_values)
-		print("dimensions_names:", dimensions_names)
-		print("possible_values:", possible_values)
+		# print("dimensions_values:", dimensions_values)
+		# print("dimensions_names:", dimensions_names)
+		# print("possible_values:", possible_values)
 	
 	dimensions_values_ids = []
 	for key in dimensions_names:
@@ -223,11 +291,11 @@ def find_relevant_stat(query: str) -> str:
 				print(possible_values[key], key, k)
 				dimensions_values_ids.append(str(possible_values[key][k]))
 	members = ",".join(map(str,dimensions_values_ids))
-	print("members:", members)
-	print("indicator_id", indicator_id)
+	# print("members:", members)
+	# print("indicator_id", indicator_id)
 
 	response3 = make_request(f"https://api-cepalstat.cepal.org/cepalstat/api/v1/indicator/{indicator_id}/data", params={"members": members})
-	print("response3:", response3["body"]["data"])
+	# print("response3:", response3["body"]["data"])
 
 	prompt2 = "System prompt: Avoid answering without context information or without being provided some minimum information to answer.\n"
 	prompt2 += f"Query: {query}\nContext:\n{indicator_name}:\n"
@@ -239,7 +307,7 @@ def find_relevant_stat(query: str) -> str:
 		prompt2 += f"{dims_str}: {value}\n"
 
 	prompt2 += f"User information:\n{memory}"
-	print("prompt2:", prompt2)
+	# print("prompt2:", prompt2)
 	response4 = prompt_gpt(prompt2)
 
 	# save memory
@@ -248,3 +316,119 @@ def find_relevant_stat(query: str) -> str:
 		json.dump(memory, file)
 
 	return response4
+
+@tool
+def maps_instruction(query: str) -> str:
+    """
+    Uses Bing Maps to find information based on the user query.
+    
+    Args:
+        query: The user's query about locations, directions, or travel information, translated to English.
+        
+    Returns:
+        String containing the response with maps information
+    """
+    async def main(query: str):
+        """Runs the AI agent to answer a user query."""
+        agent = Agent(
+            task=f"Go to Bing Maps and help the user with this instruction: {query}",
+            llm=AzureChatOpenAI(
+                model="gpt-4o-mini", 
+                api_version="2024-02-15-preview",
+                azure_endpoint=AZURE_OPENAI_ENDPOINT,
+                api_key=AZURE_OPENAI_API_KEY
+            ),
+            save_conversation_path='logs/conversation',
+        )
+        
+        await agent.run()
+
+    # Run the AI agent
+    asyncio.run(main(query))
+
+    # Process logs and find highest-number conversation
+    logs_directory = 'logs'
+    highest_conversation = find_conversation_with_highest_number(logs_directory)
+
+    if highest_conversation:
+        return str(highest_conversation)
+    else:
+        print("No conversation found.")
+
+@tool
+def browser(query: str) -> str:
+    """
+    Uses Google search to answer the user query.
+    
+    Args:
+        query: The user's query about anything.
+        
+    Returns:
+        String containing the response
+    """
+    async def main(query: str):
+        """Runs the AI agent to answer a user query."""
+        agent = Agent(
+            task=f"Find a quick answer to the user query: {query}. Don't stop until you find enough information to answer.",
+            llm=AzureChatOpenAI(
+                model="gpt-4o", 
+                api_version="2024-02-15-preview",
+                azure_endpoint=AZURE_OPENAI_ENDPOINT,
+                api_key=AZURE_OPENAI_API_KEY
+            ),
+            save_conversation_path='logs/conversation',
+        )
+        
+        await agent.run()
+
+    # Run the AI agent
+    asyncio.run(main(query))
+
+    # Process logs and find highest-number conversation
+    logs_directory = 'logs'
+    highest_conversation = find_conversation_with_highest_number(logs_directory)
+
+    if highest_conversation:
+        return str(highest_conversation)
+    else:
+        print("No conversation found.")
+
+@tool
+def legal_assistance(query: str) -> str:
+    """
+    Uses a browser tool to return instructions on how to fill forms and paper work related to the legal cases.
+    
+    Args:
+        query: The user's query about passport renovation, documentation filling...
+        
+    Returns:
+        Visits the webs the user wants to fill the forms and gives a detailed report on how to fill them up.
+    """ 
+
+    async def main(query: str):
+        """Runs the AI agent to answer a user query."""
+        agent = Agent(
+            task=f"Ayuda al usuario con esta instrucción: {query}. No hace falta que rellenes formulario, simplemente accede a la pagina y explica los pasos que veas necesarios.",
+            llm=AzureChatOpenAI(
+                model="gpt-4o-mini", 
+                api_version="2024-02-15-preview",
+                azure_endpoint=AZURE_OPENAI_ENDPOINT,
+                api_key=AZURE_OPENAI_API_KEY
+            ),
+            save_conversation_path='logs/conversation',
+        )
+        
+        await agent.run()
+
+
+    # Run the AI agent
+    asyncio.run(main(query))
+
+    # Process logs and find highest-number conversation
+    logs_directory = 'logs'
+    highest_conversation = find_conversation_with_highest_number(logs_directory)
+
+    if highest_conversation:
+        return str(highest_conversation)
+    else:
+        print("No conversation found.")

@@ -2,6 +2,7 @@ from flask import Flask, render_template, request, redirect, session, jsonify
 import hashlib
 import json
 import os
+from smol_test import answer_question
 
 app = Flask(__name__)
 app.secret_key = 'your_secret_key'
@@ -62,26 +63,34 @@ def survey():
     
 @app.route('/update_user_info', methods=['POST'])
 def update_user_info():
-    if 'user_id' in session:
-        email = session['user_id']
-        name = request.form['name']
-        sex = request.form['sex']
-        country = request.form['country']
+	if 'user_id' in session:
+		email = session['user_id']
+		name = request.form['name']
+		sex = request.form['sex']
+		country = request.form['country']
 
-        users_data = load_users()
-        users = users_data["users"]
+		users_data = load_users()
+		users = users_data["users"]
 
-        for user in users:
-            if user['email'] == email:
-                user['name'] = name
-                user['sex'] = sex
-                user['country'] = country
-                save_users(users_data)
-                return 'OK'
+		for user in users:
+			if user['email'] == email:
+				user['name'] = name
+				user['sex'] = sex
+				user['country'] = country
+				save_users(users_data)
+				with open('memory.json', 'r') as f:
+					memory = json.load(f)
+				memory["name"] = name
+				memory["sex"] = sex
+				memory["country"] = country
+				memory["last_queries"] = []
+				with open('memory.json', 'w') as f:
+					json.dump(memory, f, indent=4)
+				return 'OK'
 
-        return 'User not found', 404
-    else:
-        return redirect('/')
+		return 'User not found', 404
+	else:
+		return redirect('/')
 
 @app.route('/main', methods=['GET'])
 def main_page():
@@ -90,18 +99,25 @@ def main_page():
     else:
         return redirect('/')
     
-@app.route('/get_user_name')
+@app.route('/get_user_name', methods=['GET'])
 def get_user_name():
     """Returns the logged-in user's name as JSON."""
-    if 'user_email' in session:
-        users = load_users()
-        for user in users:
-            if user['email'] == session['user_email']:
-                return jsonify({'name': user['name']})
-        return jsonify({'error': 'User not found'}), 404
+    print(f"Session data: {session}")
+    if 'user_id' in session:
+        email = session['user_id']
+        users_data = load_users()
+        users = users_data["users"]
+        user = next((u for u in users if u['email'] == email), None)
+        if user and 'name' in user:
+            return jsonify({'name': user['name']})
+        else:
+            # Handle the case where the user or name is not found
+            if user: #user exists, but name does not.
+                return jsonify({'name': 'Usuario'}), 200 #return a default name.
+            else: #user does not exist.
+                 return jsonify({'error': 'User not found'}), 404
     else:
         return jsonify({'error': 'User not authenticated'}), 401
-
 
 @app.route('/conversation', methods=['GET'])
 def chat_page():
@@ -115,12 +131,7 @@ def chat_bot():
     return bot_response
 
 def get_bot_response(user_message):
-    # This is where you integrate your chatbot program
-    # Example:
-    # from your_chatbot_module import get_response
-    # bot_response = get_response(user_message)
-    # Replace the following with your actual chatbot logic
-    return f"Bot: {user_message} (Response from bot)"
+    return answer_question(user_message)
 
 
 @app.route('/management', methods=['GET'])

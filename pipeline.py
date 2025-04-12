@@ -22,7 +22,7 @@ def _get_env_from_colab_or_os(key):
 
 load_dotenv()
 
-HF_TOKEN = _get_env_from_colab_or_os("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")
+HF_TOKEN = _get_env_from_colab_or_os("basurita")
 FILE_PATH = ["https://arxiv.org/pdf/2408.09869"]  # Docling Technical Report
 EMBED_MODEL_ID = "sentence-transformers/all-MiniLM-L6-v2"
 GEN_MODEL_ID = "mistralai/Mixtral-8x7B-Instruct-v0.1"
@@ -93,7 +93,7 @@ from langchain_huggingface import HuggingFaceEndpoint
 retriever = vectorstore.as_retriever(search_kwargs={"k": TOP_K})
 llm = HuggingFaceEndpoint(
     repo_id=GEN_MODEL_ID,
-    huggingfacehub_api_token="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",
+    huggingfacehub_api_token="basurita",
     task="text-generation",
 )
 
